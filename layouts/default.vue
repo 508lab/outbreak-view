@@ -1,22 +1,35 @@
 <template>
   <div class="menu-header">
-    <a-menu v-model="current" mode="horizontal">
-      <a-menu-item key="home"> <a-icon type="home" />首页 </a-menu-item>
-      <a-menu-item key="article"> <a-icon type="snippets" />文章 </a-menu-item>
-      <a-menu-item key="login"> <a-icon type="login" />登录 </a-menu-item>
+    <a-menu
+      v-model="$store.state.layout.current"
+      mode="horizontal"
+      v-bind:style="{ textAlign: 'right' }"
+    >
+      <a-menu-item key="home"> <nuxt-link to="/">首页</nuxt-link> </a-menu-item>
+      <a-menu-item key="article"
+        ><nuxt-link to="/article">文章</nuxt-link></a-menu-item
+      >
+      <a-menu-item key="login">
+        <nuxt-link to="/login">登录</nuxt-link>
+      </a-menu-item>
     </a-menu>
-
     <Nuxt />
+
+    <p
+      v-bind:style="{
+        position: 'initial',
+        wdith: '100%',
+        bottom: '0px',
+        textAlign: 'center',
+        marginTop: '0.5rem',
+      }"
+    >
+      <a href="http://www.beian.gov.cn">晋ICP备19005965 号</a>
+    </p>
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      current: ["home"],
-    };
-  },
-};
+export default {};
 </script>
 <style>
 html {
@@ -36,8 +49,5 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
-}
-.menu-header ul{
-  text-align: right;
 }
 </style>
