@@ -1,7 +1,7 @@
 <template>
   <div class="menu-header">
     <a-menu
-      v-model="$store.state.layout.current"
+      :selectedKeys="$store.state.layout.current"
       mode="horizontal"
       v-bind:style="{ textAlign: 'right' }"
     >

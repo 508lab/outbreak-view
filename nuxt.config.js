@@ -1,5 +1,6 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
+  target: 'static', // default is 'server'
   head: {
     title: '晋城职业技术学院508工作室',
     meta: [
@@ -40,5 +41,5 @@ export default {
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+  },
 }

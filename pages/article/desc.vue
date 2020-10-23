@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="content">
+    <div class="content" v-if="data">
       <h3 class="title">{{ data.title }}</h3>
       <p class="time">{{ data.time | dateFormat }}</p>
       <div v-html="data.content"></div>
@@ -29,7 +29,7 @@
           </a-form-item>
         </div>
       </div>
-      <div class="comments">
+      <div class="comments" v-if="comments">
         <a-list
           class="comment-list"
           item-layout="horizontal"
@@ -51,15 +51,26 @@ export default {
     return {
       value: "",
       submitting: false,
+      data: null,
+      comments: [],
+      isLogin: 0
     };
   },
-  async asyncData({ $axios, query }) {
-    const res = await $axios.$get(`/article/info?id=${query.id}`);
-    return { data: res.data, comments: res.comments, isLogin: res.login };
-  },
+
   created: function () {
     this.$store.commit("layout/setCurrent", ["article"]);
+    this.$axios
+      .$get(`/article/info?id=${this.$route.query.id}`)
+      .then((res) => {
+        this.data = res.data;
+        this.comments = res.comments;
+        this.isLogin = res.isLogin;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
+
   methods: {
     handleSubmit() {
       if (!this.value) {
@@ -73,15 +84,15 @@ export default {
       this.$axios
         .$post("/article/comment", {
           content: this.value,
-          aid: this.data.id
+          aid: this.data.id,
         })
         .then((response) => {
           this.submitting = true;
           if (response.code == "0") {
             this.$message.error(response.err);
           } else {
-            this.$message.success('评论成功');
-            setTimeout(function(){
+            this.$message.success("评论成功");
+            setTimeout(function () {
               window.location.reload();
             }, 500);
           }
@@ -90,7 +101,6 @@ export default {
           this.submitting = true;
           this.$message.error(`服务器异常`);
         });
-      
     },
     handleChange(e) {
       this.value = e.target.value;

@@ -73,7 +73,7 @@ export default {
 
   methods: {
     clickHandler: function () {
-      this.offset += 2;
+      this.offset += limit;
       this.iconLoading = true;
       return this.$axios
         .$get(`/article/list/data?limit=${this.limit}&offset=${this.offset}`)
